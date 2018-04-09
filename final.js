@@ -1,10 +1,11 @@
 console.log("Final!");
 
-  var scene, renderer;  
-  var camera;
-  var gameState = {score1:0, score2:0, scene:'main', camera:'none' }
+  var scene, renderer,clock,soccer;  
+  var camera, edgeCam;
+  var gameState = {score1:0, score2:0, scene:'main', camera: 'none' }
   
   init();
+  initControls();
   animate();
   
   function init(){
@@ -26,6 +27,9 @@ console.log("Final!");
 		camera.position.set(0,50,0);
 		camera.lookAt(0,0,0);	
 		addBalls();
+		edgeCam = new THREE.PerspectiveCamera( 120, window.innerWidth / window.innerHeight, 0.1, 1000 );
+        edgeCam.position.set(20,20,10);
+        gameState.camera=edgeCam;
   }
 
   function initScene(){
@@ -78,21 +82,41 @@ console.log("Final!");
 	}
 
   function addBalls(){
-  	var soccer = createBall();
-  	soccer.position.set(0,20,0);
+  	soccer = createBall();
+  	soccer.position.set(0,10,0);
   	soccer.__dirtyPosition=true;
   	scene.add(soccer);
   	
   }
   
   function createBall(){
-		var geometry = new THREE.SphereGeometry( 1, 16, 16);
-		var material = new THREE.MeshLambertMaterial( { color: "white"} );
-		var pmaterial = new Physijs.createMaterial(material,0.9,0.95);
-    	var mesh = new Physijs.BoxMesh( geometry, pmaterial );
-		mesh.setDamping(0.1,0.1);
-		mesh.castShadow = true;
-		return mesh;
+	var geometry = new THREE.SphereGeometry( 2, 16, 16);
+	var material = new THREE.MeshLambertMaterial( { color: "white"} );
+	var pmaterial = new Physijs.createMaterial(material,0.9,0.95);
+    var mesh = new Physijs.BoxMesh( geometry, pmaterial );
+	mesh.setDamping(0.1,0.1);
+	mesh.castShadow = true;
+	return mesh;
+  }
+  
+  function initControls(){
+		clock = new THREE.Clock();
+		clock.start();
+		window.addEventListener( 'keydown', keydown);
+		window.addEventListener( 'keyup',   keyup );
+  }
+  
+  function keydown(event){
+  	console.log("Keydown: '"+event.key+"'");
+  	switch (event.key){
+  		case "1": gameState.camera = camera; break;
+  		case "3": gameState.camera = edgeCam; break;
+  	}
+  }
+  
+  function keyup(event){
+  	switch (event.key){
+  	}
   }
   
   function animate() {
@@ -113,18 +137,19 @@ console.log("Final!");
 			case "main":
 				/*updateAvatar();
 				updateNPC();
-       			edgeCam.lookAt(avatar.position);
+       			
 	    		scene.simulate();
 				if (gameState.camera!= 'none'){
 					renderer.render( scene, gameState.camera );
 				}
 				*/
-				renderer.render( scene, camera);
+				edgeCam.lookAt(soccer.position);
+				renderer.render( scene, gameState.camera);
 				break;
 				
 
-			default:
-			  console.log("don't know the scene "+gameState.scene);
+			//default:
+			  //console.log("don't know the scene "+gameState.scene);
 
 		}
 	}
