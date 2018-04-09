@@ -23,7 +23,7 @@ init();
 
 
 			// create the ground // need image! 
-			var ground = createGround('Soccer-Field.jpg');
+			var ground = createGround('Soccer-Field.jpg', 15);
 			scene.add(ground);
   }
 
