@@ -1,37 +1,35 @@
 console.log("Final!");
 
-	var scene, renderer;  
-	var camera;
-init();
+  var scene, renderer;  
+  var camera;
+  var gameState = {score1:0, score2:0, scene:'main', camera:'none' }
+  
+  init();
+  animate();
+  
   function init(){
 	  initPhysijs();
-	  scene = createMainScene();
-  	initRenderer();
-		//createMainScene();
+	  createMainScene();
+  	  initRenderer();
 	}
 
-	function createMainScene(){
-			var light1 = createPointLight();
-			light1.position.set(0,200,20);
-			scene.add(light1);
-			var light0 = new THREE.AmbientLight( 0xffffff,0.25);
-			scene.add(light0);
-
-			camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 0.1, 1000 );
-			camera.position.set(0,50,0);
-			camera.lookAt(0,0,0);
-
-
-
-			// create the ground // need image! 
-			var ground = createGround('Soccer-Field.jpg', 15);
-			scene.add(ground);
+  function createMainScene(){
+  		scene=initScene();
+  		var ground = createGround('Soccer-Field.jpg', 1);
+		scene.add(ground);
+		var light1 = createPointLight();
+		light1.position.set(0,200,20);
+		scene.add(light1);
+		var light0 = new THREE.AmbientLight( 0xffffff,0.25);
+		scene.add(light0);
+		camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 0.1, 1000 );
+		camera.position.set(0,50,0);
+		camera.lookAt(0,0,0);	
   }
 
   function initScene(){
-    //scene = new THREE.Scene();
-    var scene = new Physijs.Scene();
-    return scene;
+  		var scene = new Physijs.Scene();
+    	return scene;
   }
 
   function initPhysijs(){
@@ -88,3 +86,37 @@ init();
 		mesh.castShadow = true;
 		return mesh;
   }
+  
+  function animate() {
+
+		requestAnimationFrame( animate );
+
+		switch(gameState.scene) {
+
+			case "start":
+				renderer.render(startScene,startCamera);
+				break;
+
+			case "youwon":
+				//endText.rotateY(0.005);
+				renderer.render( endScene, endCamera );
+				break;
+
+			case "main":
+				/*updateAvatar();
+				updateNPC();
+       			edgeCam.lookAt(avatar.position);
+	    		scene.simulate();
+				if (gameState.camera!= 'none'){
+					renderer.render( scene, gameState.camera );
+				}
+				*/
+				renderer.render( scene, camera);
+				break;
+				
+
+			default:
+			  console.log("don't know the scene "+gameState.scene);
+
+		}
+	}
