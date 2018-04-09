@@ -86,7 +86,7 @@ console.log("Final!");
   }
   
   function createBall(){
-		var geometry = new THREE.SphereGeometry( 1, 4, 4);
+		var geometry = new THREE.SphereGeometry( 1, 16, 16);
 		var material = new THREE.MeshLambertMaterial( { color: "white"} );
 		var pmaterial = new Physijs.createMaterial(material,0.9,0.95);
     	var mesh = new Physijs.BoxMesh( geometry, pmaterial );
