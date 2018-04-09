@@ -1,7 +1,7 @@
 console.log("Final!");
 
 	var scene, renderer;  
-
+init();
   function init(){
 	  initPhysijs();
 	  scene = initScene();
