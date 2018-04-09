@@ -25,6 +25,7 @@ console.log("Final!");
 		camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 0.1, 1000 );
 		camera.position.set(0,50,0);
 		camera.lookAt(0,0,0);	
+		addBalls();
   }
 
   function initScene(){
@@ -76,7 +77,14 @@ console.log("Final!");
 		// we need to rotate the mesh 90 degrees to make it horizontal not vertical
 	}
 
-
+  function addBalls(){
+  	var soccer = createBall();
+  	soccer.position.set(0,20,0);
+  	soccer.__dirtyPosition=true;
+  	scene.add(soccer);
+  	
+  }
+  
   function createBall(){
 		var geometry = new THREE.SphereGeometry( 1, 4, 4);
 		var material = new THREE.MeshLambertMaterial( { color: "white"} );
