@@ -7,7 +7,7 @@ init();
 	  initPhysijs();
 	  scene = createMainScene();
   	initRenderer();
-		createMainScene();
+		//createMainScene();
 	}
 
 	function createMainScene(){
