@@ -58,20 +58,23 @@ console.log("Final!");
   }
 
   // need to change image, size, color 
-  function createGround(image){
+	function createGround(image,k){
+		// creating a textured plane which receives shadows
 		var geometry = new THREE.PlaneGeometry( 180, 180, 128 );
 		var texture = new THREE.TextureLoader().load( '../images/'+image );
 		texture.wrapS = THREE.RepeatWrapping;
 		texture.wrapT = THREE.RepeatWrapping;
-		texture.repeat.set( 15, 15 );
+		texture.repeat.set( k, k );
 		var material = new THREE.MeshLambertMaterial( { color: 0xffffff,  map: texture ,side:THREE.DoubleSide} );
 		var pmaterial = new Physijs.createMaterial(material,0.9,0.05);
+		//var mesh = new THREE.Mesh( geometry, material );
 		var mesh = new Physijs.BoxMesh( geometry, pmaterial, 0 );
 
 		mesh.receiveShadow = true;
 
 		mesh.rotateX(Math.PI/2);
 		return mesh
+		// we need to rotate the mesh 90 degrees to make it horizontal not vertical
 	}
 
 
