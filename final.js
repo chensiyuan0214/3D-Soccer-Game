@@ -3,9 +3,9 @@ console.log("Final!");
 	var scene, renderer;  
 
   function init(){
-    initPhysijs();
-		scene = initScene();
-    initRenderer();
+	  initPhysijs();
+	  scene = initScene();
+  	initRenderer();
 		createMainScene();
 	}
 
@@ -82,7 +82,7 @@ console.log("Final!");
 		var geometry = new THREE.SphereGeometry( 1, 4, 4);
 		var material = new THREE.MeshLambertMaterial( { color: "white"} );
 		var pmaterial = new Physijs.createMaterial(material,0.9,0.95);
-    var mesh = new Physijs.BoxMesh( geometry, pmaterial );
+    	var mesh = new Physijs.BoxMesh( geometry, pmaterial );
 		mesh.setDamping(0.1,0.1);
 		mesh.castShadow = true;
 		return mesh;
