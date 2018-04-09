@@ -1,13 +1,13 @@
-console.log("Final!");
-
-	var scene, renderer;  
-	var camera;
+var scene, renderer;  
+var camera;
+console.log("Final!");	
 init();
+
   function init(){
 	  initPhysijs();
-	  scene = createMainScene();
+	  scene = initScene();
   	initRenderer();
-		//createMainScene();
+	createMainScene();
 	}
 
 	function createMainScene(){
