@@ -1,13 +1,13 @@
 console.log("Final!");
 
-  var scene, renderer,clock,soccer;  
+  var scene, renderer,clock,soccer;
   var camera, edgeCam,standCam;
   var gameState = {score1:0, score2:0, scene:'main', camera: 'none' }
-  
+
   init();
   initControls();
   animate();
-  
+
   function init(){
 	  initPhysijs();
 	  createMainScene();
@@ -16,7 +16,7 @@ console.log("Final!");
 
   function createMainScene(){
   		scene=initScene();
-  		var ground = createGround('Soccer-Field.jpg', 1);
+  		var ground = createGround('Soccer-Field.jpg');
 		scene.add(ground);
 		var light1 = createPointLight();
 		light1.position.set(0,200,20);
@@ -25,17 +25,19 @@ console.log("Final!");
 		scene.add(light0);
 		camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 0.1, 1000 );
 		camera.position.set(0,50,0);
-		camera.lookAt(0,0,0);	
+		camera.lookAt(0,0,0);
 		addBalls();
 		edgeCam = new THREE.PerspectiveCamera( 120, window.innerWidth / window.innerHeight, 0.1, 1000 );
         edgeCam.position.set(20,20,10);
         standCam = new THREE.PerspectiveCamera( 120, window.innerWidth / window.innerHeight, 0.1, 1000 );
-        standCam.position.set(0,30,100);
+        standCam.position.set(0,30,50);
         gameState.camera=edgeCam;
-        var wall1=createGround('brick-wall.jpg', 1);
-        wall1.rotateX(Math.PI/2);
-        wall1.position.set(0,0,-100);
+        var wall1=createWall('brick-wall.jpg', 200,105,1);
+        wall1.position.set(0,50,-100);
         scene.add(wall1);
+        var wall2=createWall('brick-wall.jpg', 105,105,1);
+        wall2.position.set(0,50,100);
+        scene.add(wall2);
   }
 
   function initScene(){
@@ -54,7 +56,7 @@ console.log("Final!");
 		document.body.appendChild( renderer.domElement );
 		renderer.shadowMap.enabled = true;
 		renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-	} 
+	}
 
   function createPointLight(){
     var light;
@@ -67,34 +69,46 @@ console.log("Final!");
     return light;
   }
 
-  // need to change image, size, color 
-	function createGround(image,k){
+  // need to change image, size, color
+	function createGround(image){
 		// creating a textured plane which receives shadows
-		var geometry = new THREE.PlaneGeometry( 180, 180, 128 );
+		var geometry = new THREE.PlaneGeometry( 105, 68, 1 );
 		var texture = new THREE.TextureLoader().load( '../images/'+image );
 		texture.wrapS = THREE.RepeatWrapping;
 		texture.wrapT = THREE.RepeatWrapping;
-		texture.repeat.set( k, k );
 		var material = new THREE.MeshLambertMaterial( { color: 0xffffff,  map: texture ,side:THREE.DoubleSide} );
 		var pmaterial = new Physijs.createMaterial(material,0.9,0.05);
 		//var mesh = new THREE.Mesh( geometry, material );
-		var mesh = new Physijs.BoxMesh( geometry, pmaterial, 0 );
-
+		var mesh = new Physijs.BoxMesh( geometry, pmaterial, 1 );
 		mesh.receiveShadow = true;
-
 		mesh.rotateX(Math.PI/2);
 		return mesh
 		// we need to rotate the mesh 90 degrees to make it horizontal not vertical
 	}
+
+  function createWall(image,w,h,d){
+    // creating a textured plane which receives shadows
+    var geometry = new THREE.PlaneGeometry( w,h, d );
+    var texture = new THREE.TextureLoader().load( '../images/'+image );
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.wrapT = THREE.RepeatWrapping;
+    var material = new THREE.MeshLambertMaterial( { color: 0xffffff,  map: texture ,side:THREE.DoubleSide} );
+    var pmaterial = new Physijs.createMaterial(material,0.9,0.05);
+    //var mesh = new THREE.Mesh( geometry, material );
+    var mesh = new Physijs.BoxMesh( geometry, pmaterial, 0 );
+    mesh.receiveShadow = true;
+    return mesh
+    // we need to rotate the mesh 90 degrees to make it horizontal not vertical
+  }
 
   function addBalls(){
   	soccer = createBall();
   	soccer.position.set(0,10,0);
   	soccer.__dirtyPosition=true;
   	scene.add(soccer);
-  	
+
   }
-  
+
   function createBall(){
 	var geometry = new THREE.SphereGeometry( 2, 16, 16);
 	var material = new THREE.MeshLambertMaterial( { color: "white"} );
@@ -104,14 +118,14 @@ console.log("Final!");
 	mesh.castShadow = true;
 	return mesh;
   }
-  
+
   function initControls(){
 		clock = new THREE.Clock();
 		clock.start();
 		window.addEventListener( 'keydown', keydown);
 		window.addEventListener( 'keyup',   keyup );
   }
-  
+
   function keydown(event){
   	console.log("Keydown: '"+event.key+"'");
   	switch (event.key){
@@ -120,12 +134,12 @@ console.log("Final!");
   		case "3": gameState.camera = edgeCam; break;
   	}
   }
-  
+
   function keyup(event){
   	switch (event.key){
   	}
   }
-  
+
   function animate() {
 
 		requestAnimationFrame( animate );
@@ -144,7 +158,7 @@ console.log("Final!");
 			case "main":
 				/*updateAvatar();
 				updateNPC();
-       			
+
 	    		scene.simulate();
 				if (gameState.camera!= 'none'){
 					renderer.render( scene, gameState.camera );
@@ -153,7 +167,7 @@ console.log("Final!");
 				edgeCam.lookAt(soccer.position);
 				renderer.render( scene, gameState.camera);
 				break;
-				
+
 
 			//default:
 			  //console.log("don't know the scene "+gameState.scene);
