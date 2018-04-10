@@ -1,7 +1,7 @@
 console.log("Final!");
 
   var scene, renderer,clock,soccer;  
-  var camera, edgeCam;
+  var camera, edgeCam,standCam;
   var gameState = {score1:0, score2:0, scene:'main', camera: 'none' }
   
   init();
@@ -29,7 +29,13 @@ console.log("Final!");
 		addBalls();
 		edgeCam = new THREE.PerspectiveCamera( 120, window.innerWidth / window.innerHeight, 0.1, 1000 );
         edgeCam.position.set(20,20,10);
+        standCam = new THREE.PerspectiveCamera( 120, window.innerWidth / window.innerHeight, 0.1, 1000 );
+        standCam.position.set(0,30,100);
         gameState.camera=edgeCam;
+        var wall1=createGround('brick-wall.jpg', 1);
+        wall1.rotateX(Math.PI/2);
+        wall1.position.set(0,0,-100);
+        scene.add(wall1);
   }
 
   function initScene(){
@@ -110,6 +116,7 @@ console.log("Final!");
   	console.log("Keydown: '"+event.key+"'");
   	switch (event.key){
   		case "1": gameState.camera = camera; break;
+  		case "2": gameState.camera = standCam; break;
   		case "3": gameState.camera = edgeCam; break;
   	}
   }
