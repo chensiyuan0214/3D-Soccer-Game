@@ -40,6 +40,21 @@ console.log("Final!");
         scene.add(wall2);
   }
 
+  function createStartScene(){
+			startScene=initScene();
+			var floor =createGround('startscreen.jpg',1);
+			floor.rotateX(Math.PI);
+			//floor.rotateY(Math.PI);
+			startScene.add(floor);
+			var light1 = createPointLight();
+			light1.position.set(0,200,20);
+			startScene.add(light1);
+			startCamera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 0.1, 1000 );
+			startCamera.position.set(0,50,1);
+			startCamera.lookAt(0,0,0);
+		}
+
+
   function initScene(){
   		var scene = new Physijs.Scene();
     	return scene;
