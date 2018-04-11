@@ -51,7 +51,7 @@ console.log("Final!");
 
   function createStartScene(){
 			startScene=initScene();
-			var floor =createGround('startscreen.jpg',1);
+			var floor =createGround('start-screen.jpg',1);
 			floor.rotateX(Math.PI);
 			//floor.rotateY(Math.PI);
 			startScene.add(floor);
