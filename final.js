@@ -3,7 +3,7 @@ console.log("Final!");
   var scene, renderer,clock,soccer,avatar1,avatar2;
   var startScene, startCamera;
   var camera, edgeCam,standCam;
-  var gameState = {score1:0, score2:0, scene:'main', camera: 'none' }
+  var gameState = {score1:0, score2:0, scene:'startScene', camera: 'none' }
   var controls1 ={fwd:false, bwd:false, left:false, right:false,
 				speed:10, fly:false, reset:false,
 		    camera:camera}
@@ -72,7 +72,7 @@ console.log("Final!");
 
   function createStartScene(){
 			startScene=initScene();
-			var floor =createGround('startscreen.jpg',1);
+			var floor =createGround('start-screen.jpg');
 			floor.rotateX(Math.PI);
 			//floor.rotateY(Math.PI);
 			startScene.add(floor);
@@ -279,12 +279,10 @@ console.log("Final!");
     console.dir(event);
   	console.log("Keydown: '"+event.key+"'");
 
-    if(gameState.scene =='start' && event.key == 'p'){
+    if(gameState.scene =='startScene' && event.key == 'p'){
       gameState.scene='main';
       gameState.score1=0;
       gameState.score2=0;
-
-      addBalls();
       return;
     }
 
@@ -307,6 +305,7 @@ console.log("Final!");
       case "ArrowDown": controls2.bwd = true; break;
       case "ArrowLeft": controls2.left = true; break;
       case "ArrowRight": controls2.right = true; break;
+
   	}
   }
 
@@ -329,7 +328,7 @@ console.log("Final!");
 
 		switch(gameState.scene) {
 
-			case "start":
+			case "startScene":
 				renderer.render(startScene,startCamera);
 				break;
 
