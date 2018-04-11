@@ -1,6 +1,7 @@
 console.log("Final!");
 
   var scene, renderer,clock,soccer,avatar;
+  var startScene, startCamera;
   var camera, edgeCam,standCam;
   var gameState = {score1:0, score2:0, scene:'main', camera: 'none' }
 
@@ -12,7 +13,7 @@ console.log("Final!");
   function init(){
 	  initPhysijs();
     createStartScene();
-    createEndScene();
+    //createEndScene();
 	  createMainScene();
   	  initRenderer();
   	  }
