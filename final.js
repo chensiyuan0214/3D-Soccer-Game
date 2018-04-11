@@ -4,6 +4,9 @@ console.log("Final!");
   var startScene, startCamera;
   var camera, edgeCam,standCam;
   var gameState = {score1:0, score2:0, scene:'main', camera: 'none' }
+  var controls ={fwd:false, bwd:false, left:false, right:false,
+				speed:10, fly:false, reset:false,
+		    camera:camera}
 
 
   init();
@@ -159,7 +162,7 @@ console.log("Final!");
 
 	function createAvatar(){
     	//var geometry = new THREE.SphereGeometry( 4, 20, 20);
-    	var geometry = new THREE.BoxGeometry( 1, 1, 1);
+    	var geometry = new THREE.BoxGeometry( 3, 3, 3);
     	var material = new THREE.MeshLambertMaterial( { color: 0xffff00} );
     	var pmaterial = new Physijs.createMaterial(material,0.9,0.5);
     	// pmaterial.visible = false;
@@ -169,6 +172,38 @@ console.log("Final!");
     	mesh.castShadow = true;
     	return mesh;
 	}
+
+  function updateAvatar(){
+    "change the avatar's linear or angular velocity based on controls state (set by WSAD key presses)"
+
+    var forward = avatar.getWorldDirection();
+
+    if (controls.fwd){
+      avatar.setLinearVelocity(forward.multiplyScalar(controls.speed));
+    } else if (controls.bwd){
+      avatar.setLinearVelocity(forward.multiplyScalar(-controls.speed));
+    } else {
+      var velocity = avatar.getLinearVelocity();
+      velocity.x=velocity.z=0;
+      avatar.setLinearVelocity(velocity); //stop the xz motion
+    }
+
+    if (controls.fly){
+      avatar.setLinearVelocity(new THREE.Vector3(0,controls.speed,0));
+    }
+
+    if (controls.left){
+      avatar.setAngularVelocity(new THREE.Vector3(0,controls.speed*0.1,0));
+    } else if (controls.right){
+      avatar.setAngularVelocity(new THREE.Vector3(0,-controls.speed*0.1,0));
+    }
+
+    if (controls.reset){
+      avatar.__dirtyPosition = true;
+      avatar.position.set(40,10,40);
+    }
+
+  }
 
   function initControls(){
 		clock = new THREE.Clock();
@@ -201,11 +236,19 @@ console.log("Final!");
   		case "1": gameState.camera = camera; break;
   		case "2": gameState.camera = standCam; break;
   		case "3": gameState.camera = edgeCam; break;
+      case "w": controls.fwd = true;  break;
+      case "s": controls.bwd = true; break;
+      case "a": controls.left = true; break;
+      case "d": controls.right = true; break;
   	}
   }
 
   function keyup(event){
   	switch (event.key){
+      case "w": controls.fwd   = false;  break;
+      case "s": controls.bwd   = false; break;
+      case "a": controls.left  = false; break;
+      case "d": controls.right = false; break;
   	}
   }
 
@@ -227,8 +270,8 @@ console.log("Final!");
 
 			case "main":
       	scene.simulate();
-				/*updateAvatar();
-				updateNPC();
+				updateAvatar();
+				/*updateNPC();
 
 
 				if (gameState.camera!= 'none'){
