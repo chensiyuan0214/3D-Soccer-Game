@@ -28,16 +28,24 @@ console.log("Final!");
 		camera.lookAt(0,0,0);
 		addBalls();
 		edgeCam = new THREE.PerspectiveCamera( 120, window.innerWidth / window.innerHeight, 0.1, 1000 );
-        edgeCam.position.set(20,20,10);
-        standCam = new THREE.PerspectiveCamera( 120, window.innerWidth / window.innerHeight, 0.1, 1000 );
-        standCam.position.set(0,30,50);
-        gameState.camera=edgeCam;
-        var wall1=createWall('brick-wall.jpg', 200,105,1);
-        wall1.position.set(0,50,-100);
-        scene.add(wall1);
-        var wall2=createWall('brick-wall.jpg', 105,105,1);
-        wall2.position.set(0,50,100);
-        scene.add(wall2);
+    edgeCam.position.set(20,20,10);
+    standCam = new THREE.PerspectiveCamera( 80, window.innerWidth / window.innerHeight, 0.1, 1000 );
+    standCam.position.set(0,30,50);
+    gameState.camera=edgeCam;
+    var wall1=createWall('brick-wall.jpg', 105,50,1);
+    wall1.position.set(0,20,-34);
+    scene.add(wall1);
+    var wall2=createWall('brick-wall.jpg', 105,50,1);
+    wall2.position.set(0,20,34);
+    scene.add(wall2);
+    var wall3 = createWall('brick-wall.jpg', 68,50,1);
+    wall3.position.set(52.5,20,0);
+    wall3.rotateY(Math.PI/2);
+    scene.add(wall3);
+    var wall4 = createWall('brick-wall.jpg', 68,50,1);
+    wall4.position.set(-52.5,20,0);
+    wall4.rotateY(Math.PI/2);
+    scene.add(wall4);
   }
 
   function createStartScene(){
