@@ -59,7 +59,7 @@ console.log("Final!");
   wall4.position.set(-52.5,20,0);
   wall4.rotateY(Math.PI/2);
   scene.add(wall4);
-    
+
   }
 
   function createStartScene(){
@@ -323,4 +323,12 @@ console.log("Final!");
 		mesh.add(avatarCam);
 		return mesh;
 	}
+
+  //draw heads up display ..
+  var info = document.getElementById("info");
+  info.innerHTML='<div style="font-size:24pt">Score: '
+  + gameState.score1+" : "+
+  + gameState.score2
+  + '</div>';
+
 }
