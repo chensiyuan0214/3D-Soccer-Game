@@ -1,8 +1,19 @@
 console.log("Final!");
 
   var scene, renderer,clock,soccer,avatar1,avatar2;
+<<<<<<< HEAD
+=======
+  var startScene, startCamera;
+>>>>>>> 47c5bc89150923828a7d8a2ff19571c6c8261ad4
   var camera, edgeCam,standCam;
   var gameState = {score1:0, score2:0, scene:'main', camera: 'none' }
+  var controls1 ={fwd:false, bwd:false, left:false, right:false,
+				speed:10, fly:false, reset:false,
+		    camera:camera}
+  var controls2 ={fwd:false, bwd:false, left:false, right:false,
+      	speed:10, fly:false, reset:false,
+      	camera:camera}
+
 
 
   init();
@@ -30,6 +41,7 @@ console.log("Final!");
 		camera.position.set(0,50,0);
 		camera.lookAt(0,0,0);
 		addBalls();
+<<<<<<< HEAD
     	avatar1 = createAvatar();
     	avatar2 = createAvatar2();
     	avatar1.translateX(20);
@@ -38,25 +50,38 @@ console.log("Final!");
 		avatar2.translateY(3);
 		scene.add(avatar1);
 		scene.add(avatar2);
+=======
+    avatar1 = createAvatar();
+    avatar1.position.set(20,3,0);
+		scene.add(avatar1);
+    avatar2 = createAvatar();
+    avatar2.position.set(-20,3,0);
+    scene.add(avatar2);
+
+>>>>>>> 47c5bc89150923828a7d8a2ff19571c6c8261ad4
 		edgeCam = new THREE.PerspectiveCamera( 120, window.innerWidth / window.innerHeight, 0.1, 1000 );
-    edgeCam.position.set(20,20,10);
-    standCam = new THREE.PerspectiveCamera( 80, window.innerWidth / window.innerHeight, 0.1, 1000 );
-    standCam.position.set(0,30,50);
-    gameState.camera=edgeCam;
-    var wall1=createWall('brick-wall.jpg', 105,50,1);
-    wall1.position.set(0,20,-34);
-    scene.add(wall1);
-    var wall2=createWall('brick-wall.jpg', 105,50,1);
-    wall2.position.set(0,20,34);
-    scene.add(wall2);
-    var wall3 = createWall('brick-wall.jpg', 68,50,1);
-    wall3.position.set(52.5,20,0);
-    wall3.rotateY(Math.PI/2);
-    scene.add(wall3);
-    var wall4 = createWall('brick-wall.jpg', 68,50,1);
-    wall4.position.set(-52.5,20,0);
-    wall4.rotateY(Math.PI/2);
-    scene.add(wall4);
+        edgeCam.position.set(20,20,10);
+        edgeCam.position.set(20,20,10);
+  standCam = new THREE.PerspectiveCamera( 80, window.innerWidth / window.innerHeight, 0.1, 1000 );
+  standCam.position.set(0,30,50);
+  gameState.camera=edgeCam;
+
+  //adding wars to the soccer turf
+  var wall1=createWall('brick-wall.jpg', 105,50,1);
+  wall1.position.set(0,20,-34);
+  scene.add(wall1);
+  var wall2=createWall('brick-wall.jpg', 105,50,1);
+  wall2.position.set(0,20,34);
+  scene.add(wall2);
+  var wall3 = createWall('brick-wall.jpg', 68,50,1);
+  wall3.position.set(52.5,20,0);
+  wall3.rotateY(Math.PI/2);
+  scene.add(wall3);
+  var wall4 = createWall('brick-wall.jpg', 68,50,1);
+  wall4.position.set(-52.5,20,0);
+  wall4.rotateY(Math.PI/2);
+  scene.add(wall4);
+
   }
 
   function createStartScene(){
@@ -180,6 +205,7 @@ console.log("Final!");
     	return mesh;
 	}
 
+<<<<<<< HEAD
 	function createAvatar2(){
   		//var geometry = new THREE.SphereGeometry( 4, 20, 20);
     	var geometry = new THREE.BoxGeometry( 3, 3, 3);
@@ -192,6 +218,71 @@ console.log("Final!");
     	mesh.castShadow = true;
     	return mesh;
 }
+=======
+  function updateAvatar1(){
+    "change the avatar's linear or angular velocity based on controls state (set by WSAD key presses)"
+
+    var forward = avatar1.getWorldDirection();
+
+    if (controls1.fwd){
+      avatar1.setLinearVelocity(forward.multiplyScalar(controls1.speed));
+    } else if (controls1.bwd){
+      avatar1.setLinearVelocity(forward.multiplyScalar(-controls1.speed));
+    } else {
+      var velocity = avatar1.getLinearVelocity();
+      velocity.x=velocity.z=0;
+      avatar1.setLinearVelocity(velocity); //stop the xz motion
+    }
+
+    if (controls1.fly){
+      avatar1.setLinearVelocity(new THREE.Vector3(0,controls1.speed,0));
+    }
+
+    if (controls1.left){
+      avatar1.setAngularVelocity(new THREE.Vector3(0,controls1.speed*0.1,0));
+    } else if (controls1.right){
+      avatar1.setAngularVelocity(new THREE.Vector3(0,-controls1.speed*0.1,0));
+    }
+
+    if (controls1.reset){
+      avatar1.__dirtyPosition = true;
+      avatar1.position.set(20,3,0);
+    }
+
+  }
+
+  function updateAvatar2(){
+    "change the avatar's linear or angular velocity based on controls state (set by WSAD key presses)"
+
+    var forward = avatar2.getWorldDirection();
+
+    if (controls2.fwd){
+      avatar2.setLinearVelocity(forward.multiplyScalar(controls2.speed));
+    } else if (controls2.bwd){
+      avatar2.setLinearVelocity(forward.multiplyScalar(-controls2.speed));
+    } else {
+      var velocity = avatar2.getLinearVelocity();
+      velocity.x=velocity.z=0;
+      avatar2.setLinearVelocity(velocity); //stop the xz motion
+    }
+
+    if (controls2.fly){
+      avatar2.setLinearVelocity(new THREE.Vector3(0,controls2.speed,0));
+    }
+
+    if (controls2.left){
+      avatar2.setAngularVelocity(new THREE.Vector3(0,controls2.speed*0.1,0));
+    } else if (controls2.right){
+      avatar2.setAngularVelocity(new THREE.Vector3(0,-controls2.speed*0.1,0));
+    }
+
+    if (controls2.reset){
+      avatar2.__dirtyPosition = true;
+      avatar2.position.set(-20,3,0);
+    }
+
+  }
+>>>>>>> 47c5bc89150923828a7d8a2ff19571c6c8261ad4
 
   function initControls(){
 		clock = new THREE.Clock();
@@ -206,14 +297,17 @@ console.log("Final!");
 
     if(gameState.scene =='start' && event.key == 'p'){
       gameState.scene='main';
-      gameState.score=0;
+      gameState.score1=0;
+      gameState.score2=0;
+
       addBalls();
       return;
     }
 
     if (gameState.scene == 'end' && event.key=='r') {
       gameState.scene = 'main';
-      gameState.score = 0;
+      gameState.score1=0;
+      gameState.score2=0;
       addBalls();
       return;
     }
@@ -221,11 +315,27 @@ console.log("Final!");
   		case "1": gameState.camera = camera; break;
   		case "2": gameState.camera = standCam; break;
   		case "3": gameState.camera = edgeCam; break;
+      case "w": controls1.fwd = true;  break;
+      case "s": controls1.bwd = true; break;
+      case "a": controls1.left = true; break;
+      case "d": controls1.right = true; break;
+      case "ArrowUp": controls2.fwd = true;  break;
+      case "ArrowDown": controls2.bwd = true; break;
+      case "ArrowLeft": controls2.left = true; break;
+      case "ArrowRight": controls2.right = true; break;
   	}
   }
 
   function keyup(event){
   	switch (event.key){
+      case "w": controls1.fwd   = false;  break;
+      case "s": controls1.bwd   = false; break;
+      case "a": controls1.left  = false; break;
+      case "d": controls1.right = false; break;
+      case "ArrowUp": controls2.fwd = false;  break;
+      case "ArrowDown": controls2.bwd = false; break;
+      case "ArrowLeft": controls2.left = false; break;
+      case "ArrowRight": controls2.right = false; break;
   	}
   }
 
@@ -247,8 +357,9 @@ console.log("Final!");
 
 			case "main":
       	scene.simulate();
-				/*updateAvatar();
-				updateNPC();
+				updateAvatar1();
+        updateAvatar2();
+				/*updateNPC();
 
 
 				if (gameState.camera!= 'none'){
