@@ -11,7 +11,7 @@ console.log("Final!");
   function init(){
 	  initPhysijs();
     createStartScene();
-    createEndScene();
+    //createEndScene();
 	  createMainScene();
   	  initRenderer();
   	  }
@@ -248,5 +248,4 @@ console.log("Final!");
 		mesh.add(avatarCam);
 		return mesh;
 	}
-
-	}
+}
