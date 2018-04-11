@@ -1,8 +1,9 @@
 console.log("Final!");
 
-  var scene, renderer,clock,soccer;
+  var scene, renderer,clock,soccer,avatar;
   var camera, edgeCam,standCam;
   var gameState = {score1:0, score2:0, scene:'main', camera: 'none' }
+
 
   init();
   initControls();
@@ -29,6 +30,11 @@ console.log("Final!");
 		camera.position.set(0,50,0);
 		camera.lookAt(0,0,0);
 		addBalls();
+    	avatar = createAvatar();
+    	avatar.translateX(20);
+		avatar.translateY(3);
+		avatar.translateZ(0);
+		scene.add(avatar);
 		edgeCam = new THREE.PerspectiveCamera( 120, window.innerWidth / window.innerHeight, 0.1, 1000 );
         edgeCam.position.set(20,20,10);
         standCam = new THREE.PerspectiveCamera( 120, window.innerWidth / window.innerHeight, 0.1, 1000 );
@@ -96,7 +102,7 @@ console.log("Final!");
 		var material = new THREE.MeshLambertMaterial( { color: 0xffffff,  map: texture ,side:THREE.DoubleSide} );
 		var pmaterial = new Physijs.createMaterial(material,0.9,0.05);
 		//var mesh = new THREE.Mesh( geometry, material );
-		var mesh = new Physijs.BoxMesh( geometry, pmaterial, 1 );
+		var mesh = new Physijs.BoxMesh( geometry, pmaterial,0);
 		mesh.receiveShadow = true;
 		mesh.rotateX(Math.PI/2);
 		return mesh
@@ -118,23 +124,52 @@ console.log("Final!");
     // we need to rotate the mesh 90 degrees to make it horizontal not vertical
   }
 
+
   function addBalls(){
   	soccer = createBall();
   	soccer.position.set(0,10,0);
-  	soccer.__dirtyPosition=true;
-  	scene.add(soccer);
+    soccer.addEventListener( 'collision',
+      function( other_object, relative_velocity, relative_rotation, contact_normal ) {
 
+          this.position.y = this.position.y - 100;
+          this.__dirtyPosition = true;
+      }
+    )
+  	scene.add(soccer);
   }
+
 
   function createBall(){
-	var geometry = new THREE.SphereGeometry( 2, 16, 16);
-	var material = new THREE.MeshLambertMaterial( { color: "white"} );
-	var pmaterial = new Physijs.createMaterial(material,0.9,0.95);
-    var mesh = new Physijs.BoxMesh( geometry, pmaterial );
-	mesh.setDamping(0.1,0.1);
-	mesh.castShadow = true;
-	return mesh;
+	  var geometry = new THREE.SphereGeometry( 2, 16, 16);
+	  var material = new THREE.MeshLambertMaterial( { color: "white"} );
+	  var pmaterial = new Physijs.createMaterial(material,0.9,0.95);
+    var mesh = new Physijs.BoxMesh( geometry, pmaterial);
+	  mesh.setDamping(0.1,0.1);
+	  mesh.castShadow = true;
+	  return mesh;
   }
+
+	function createBoxMesh(color){
+    	var geometry = new THREE.BoxGeometry( 1, 1, 1);
+    	var material = new THREE.MeshLambertMaterial( { color: color} );
+    	var mesh = new Physijs.BoxMesh( geometry, material );
+    	//mesh = new Physijs.BoxMesh( geometry, material,0 );
+    	mesh.castShadow = true;
+    	return mesh;
+	}
+
+	function createAvatar(){
+    	//var geometry = new THREE.SphereGeometry( 4, 20, 20);
+    	var geometry = new THREE.BoxGeometry( 1, 1, 1);
+    	var material = new THREE.MeshLambertMaterial( { color: 0xffff00} );
+    	var pmaterial = new Physijs.createMaterial(material,0.9,0.5);
+    	// pmaterial.visible = false;
+    	//var mesh = new THREE.Mesh( geometry, material );
+    	var mesh = new Physijs.BoxMesh( geometry, pmaterial );
+    	// mesh.setDamping(0.1,0.1);
+    	mesh.castShadow = true;
+    	return mesh;
+	}
 
   function initControls(){
 		clock = new THREE.Clock();
@@ -144,6 +179,7 @@ console.log("Final!");
   }
 
   function keydown(event){
+    console.dir(event);
   	console.log("Keydown: '"+event.key+"'");
 
     if(gameState.scene =='start' && event.key == 'p'){
@@ -191,10 +227,11 @@ console.log("Final!");
 
 
 			case "main":
+      	scene.simulate();
 				/*updateAvatar();
 				updateNPC();
 
-	    		scene.simulate();
+
 				if (gameState.camera!= 'none'){
 					renderer.render( scene, gameState.camera );
 				}
@@ -208,31 +245,5 @@ console.log("Final!");
 			  //console.log("don't know the scene "+gameState.scene);
 
 		}
-
-    function createBoxMesh(color){
-		var geometry = new THREE.BoxGeometry( 1, 1, 1);
-		var material = new THREE.MeshLambertMaterial( { color: color} );
-		mesh = new Physijs.BoxMesh( geometry, material );
-    //mesh = new Physijs.BoxMesh( geometry, material,0 );
-		mesh.castShadow = true;
-		return mesh;
-	}
-
-  function createAvatar(){
-		//var geometry = new THREE.SphereGeometry( 4, 20, 20);
-
-		var geometry = new THREE.BoxGeometry( 1, 1, 1);
-		var material = new THREE.MeshLambertMaterial( { color: 0xffff00} );
-		var pmaterial = new Physijs.createMaterial(material,0.9,0.5);
-		// pmaterial.visible = false;
-		//var mesh = new THREE.Mesh( geometry, material );
-		var mesh = new Physijs.BoxMesh( geometry, pmaterial );
-		mesh.setDamping(0.1,0.1);
-		mesh.castShadow = true;
-		avatarCam.position.set(0,4,0);
-		avatarCam.lookAt(0,4,10);
-		mesh.add(avatarCam);
-		return mesh;
-	}
 
 	}
