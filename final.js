@@ -131,8 +131,6 @@ console.log("Final!");
   	soccer.position.set(0,10,0);
     soccer.addEventListener( 'collision',
       function( other_object, relative_velocity, relative_rotation, contact_normal ) {
-
-          this.position.y = this.position.y - 100;
           this.__dirtyPosition = true;
       }
     )
@@ -247,4 +245,29 @@ console.log("Final!");
 
 		}
 
+    function createBoxMesh(color){
+		var geometry = new THREE.BoxGeometry( 1, 1, 1);
+		var material = new THREE.MeshLambertMaterial( { color: color} );
+		mesh = new Physijs.BoxMesh( geometry, material );
+    //mesh = new Physijs.BoxMesh( geometry, material,0 );
+		mesh.castShadow = true;
+		return mesh;
 	}
+
+  function createAvatar(){
+		//var geometry = new THREE.SphereGeometry( 4, 20, 20);
+
+		var geometry = new THREE.BoxGeometry( 1, 1, 1);
+		var material = new THREE.MeshLambertMaterial( { color: 0xffff00} );
+		var pmaterial = new Physijs.createMaterial(material,0.9,0.5);
+		// pmaterial.visible = false;
+		//var mesh = new THREE.Mesh( geometry, material );
+		var mesh = new Physijs.BoxMesh( geometry, pmaterial );
+		mesh.setDamping(0.1,0.1);
+		mesh.castShadow = true;
+		avatarCam.position.set(0,4,0);
+		avatarCam.lookAt(0,4,10);
+		mesh.add(avatarCam);
+		return mesh;
+	}
+}
