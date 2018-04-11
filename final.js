@@ -10,6 +10,8 @@ console.log("Final!");
 
   function init(){
 	  initPhysijs();
+    createStartScene();
+    createEndScene();
 	  createMainScene();
   	  initRenderer();
   	  }
@@ -143,7 +145,21 @@ console.log("Final!");
 
   function keydown(event){
   	console.log("Keydown: '"+event.key+"'");
-  	switch (event.key){
+
+    if(gameState.scene =='start' && event.key == 'p'){
+      gameState.scene='main';
+      gameState.score=0;
+      addBalls();
+      return;
+    }
+
+    if (gameState.scene == 'end' && event.key=='r') {
+      gameState.scene = 'main';
+      gameState.score = 0;
+      addBalls();
+      return;
+    }
+    switch (event.key){
   		case "1": gameState.camera = camera; break;
   		case "2": gameState.camera = standCam; break;
   		case "3": gameState.camera = edgeCam; break;
@@ -165,10 +181,11 @@ console.log("Final!");
 				renderer.render(startScene,startCamera);
 				break;
 
-			case "youwon":
+			case "end":
 				//endText.rotateY(0.005);
 				renderer.render( endScene, endCamera );
 				break;
+
 
 			case "main":
 				/*updateAvatar();
