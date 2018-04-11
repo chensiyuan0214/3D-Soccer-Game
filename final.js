@@ -102,7 +102,7 @@ console.log("Final!");
 		var material = new THREE.MeshLambertMaterial( { color: 0xffffff,  map: texture ,side:THREE.DoubleSide} );
 		var pmaterial = new Physijs.createMaterial(material,0.9,0.05);
 		//var mesh = new THREE.Mesh( geometry, material );
-		var mesh = new Physijs.BoxMesh( geometry, pmaterial, 1 );
+		var mesh = new Physijs.BoxMesh( geometry, pmaterial,0);
 		mesh.receiveShadow = true;
 		mesh.rotateX(Math.PI/2);
 		return mesh
@@ -124,22 +124,29 @@ console.log("Final!");
     // we need to rotate the mesh 90 degrees to make it horizontal not vertical
   }
 
+
   function addBalls(){
   	soccer = createBall();
   	soccer.position.set(0,10,0);
-  	soccer.__dirtyPosition=true;
-  	scene.add(soccer);
+    soccer.addEventListener( 'collision',
+      function( other_object, relative_velocity, relative_rotation, contact_normal ) {
 
+          this.position.y = this.position.y - 100;
+          this.__dirtyPosition = true;
+      }
+    )
+  	scene.add(soccer);
   }
 
+
   function createBall(){
-	var geometry = new THREE.SphereGeometry( 2, 16, 16);
-	var material = new THREE.MeshLambertMaterial( { color: "white"} );
-	var pmaterial = new Physijs.createMaterial(material,0.9,0.95);
-    var mesh = new Physijs.BoxMesh( geometry, pmaterial );
-	mesh.setDamping(0.1,0.1);
-	mesh.castShadow = true;
-	return mesh;
+	  var geometry = new THREE.SphereGeometry( 2, 16, 16);
+	  var material = new THREE.MeshLambertMaterial( { color: "white"} );
+	  var pmaterial = new Physijs.createMaterial(material,0.9,0.95);
+    var mesh = new Physijs.BoxMesh( geometry, pmaterial);
+	  mesh.setDamping(0.1,0.1);
+	  mesh.castShadow = true;
+	  return mesh;
   }
 
   function initControls(){
@@ -150,6 +157,7 @@ console.log("Final!");
   }
 
   function keydown(event){
+    console.dir(event);
   	console.log("Keydown: '"+event.key+"'");
   	switch (event.key){
   		case "1": gameState.camera = camera; break;
@@ -179,10 +187,11 @@ console.log("Final!");
 				break;
 
 			case "main":
+      	scene.simulate();
 				/*updateAvatar();
 				updateNPC();
 
-	    		scene.simulate();
+
 				if (gameState.camera!= 'none'){
 					renderer.render( scene, gameState.camera );
 				}
