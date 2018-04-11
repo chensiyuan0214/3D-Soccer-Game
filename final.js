@@ -138,8 +138,6 @@ console.log("Final!");
   	soccer.position.set(0,10,0);
     soccer.addEventListener( 'collision',
       function( other_object, relative_velocity, relative_rotation, contact_normal ) {
-
-          this.position.y = this.position.y - 100;
           this.__dirtyPosition = true;
       }
     )
