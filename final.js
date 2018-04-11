@@ -251,7 +251,6 @@ console.log("Final!");
 
 		}
 
-<<<<<<< HEAD
     function createBoxMesh(color){
 		var geometry = new THREE.BoxGeometry( 1, 1, 1);
 		var material = new THREE.MeshLambertMaterial( { color: color} );
@@ -278,6 +277,3 @@ console.log("Final!");
 		return mesh;
 	}
 }
-=======
-	}
->>>>>>> c4813d4c3f1901731fedc8bb0d57ff1a96f3189a
