@@ -51,6 +51,8 @@ console.log("Final!");
   standCam = new THREE.PerspectiveCamera( 80, window.innerWidth / window.innerHeight, 0.1, 1000 );
   standCam.position.set(0,30,50);
   gameState.camera=edgeCam;
+
+  //adding wars to the soccer turf
   var wall1=createWall('brick-wall.jpg', 105,50,1);
   wall1.position.set(0,20,-34);
   scene.add(wall1);
