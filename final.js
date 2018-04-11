@@ -41,7 +41,7 @@ console.log("Final!");
     avatar1 = createAvatar();
     avatar1.position.set(20,3,0);
 		scene.add(avatar1);
-    avatar2 = createAvatar();
+    avatar2 = createAvatar2();
     avatar2.position.set(-20,3,0);
     scene.add(avatar2);
 
@@ -182,6 +182,19 @@ console.log("Final!");
     	//var geometry = new THREE.SphereGeometry( 4, 20, 20);
     	var geometry = new THREE.BoxGeometry( 3, 3, 3);
     	var material = new THREE.MeshLambertMaterial( { color: 0xffff00} );
+    	var pmaterial = new Physijs.createMaterial(material,0.9,0.5);
+    	// pmaterial.visible = false;
+    	//var mesh = new THREE.Mesh( geometry, material );
+    	var mesh = new Physijs.BoxMesh( geometry, pmaterial );
+    	// mesh.setDamping(0.1,0.1);
+    	mesh.castShadow = true;
+    	return mesh;
+	}
+
+  function createAvatar2(){
+    	//var geometry = new THREE.SphereGeometry( 4, 20, 20);
+    	var geometry = new THREE.BoxGeometry( 3, 3, 3);
+    	var material = new THREE.MeshLambertMaterial( { color: "red"} );
     	var pmaterial = new Physijs.createMaterial(material,0.9,0.5);
     	// pmaterial.visible = false;
     	//var mesh = new THREE.Mesh( geometry, material );
