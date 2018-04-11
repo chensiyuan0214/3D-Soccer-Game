@@ -11,8 +11,8 @@ console.log("Final!");
 
   function init(){
 	  initPhysijs();
-    createStartScene();
-    createEndScene();
+    // createStartScene();
+    // createEndScene();
 	  createMainScene();
   	  initRenderer();
   	  }
@@ -139,7 +139,7 @@ console.log("Final!");
     soccer.addEventListener( 'collision',
       function( other_object, relative_velocity, relative_rotation, contact_normal ) {
 
-          this.position.y = this.position.y - 100;
+          // this.position.y = this.position.y - 100;
           this.__dirtyPosition = true;
       }
     )
