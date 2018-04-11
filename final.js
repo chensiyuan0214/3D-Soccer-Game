@@ -326,7 +326,7 @@ console.log("Final!");
 
   //draw heads up display ..
   var info = document.getElementById("info");
-  info.innerHTML='<div style="font-size:24pt">Score: '
+  info.innerHTML='<div style="font-size:24pt">Score Board      '
   + gameState.score1+" : "+
   + gameState.score2
   + '</div>';
