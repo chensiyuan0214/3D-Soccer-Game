@@ -176,19 +176,22 @@ console.log("Final!");
       function(other_object) {
         if(other_object==wall1||other_object==wall2||other_object==wall3||other_object==wall4){
           this.position.set(0,10,0);
-        }
+          this.__dirtyPosition = true;
+        }});
+    soccer.addEventListener('collision',
+      function(other_object) {
         if(other_object==goal1){
           gameState.score1++;
-	  soccer.position.set(0,10,0);
-	  soccer.__dirtyPostion = true;
-        }
+          this.position.set(0,10,0);
+          this.__dirtyPosition = true;
+        }});
+    soccer.addEventListener('collision',
+      function(other_object) {
         if(other_object==goal2){
           gameState.score2++;
-	  soccer.position.set(0,10,0);
-	  soccer.__dirtyPostion = true;
-        }
-      })
-      this.__dirtyPosition = true;
+          this.position.set(0,10,0);
+          this.__dirtyPosition = true;
+        }});
   	scene.add(soccer);
   }
 
@@ -449,17 +452,16 @@ function initMario2(){
 				var info = document.getElementById("info");
 				info.innerHTML='<div style="font-size:24pt">Score: '
   			+ " team1="+gameState.score1
-    			+ gameState.score2
   			+ " team2="+gameState.score2
 			+'</div>';
 				break;
-		
+
 
 			//default:
 			  //console.log("don't know the scene "+gameState.scene);
-			
 
-		
+
+
  	 }
     function createBoxMesh(color){
 		var geometry = new THREE.BoxGeometry( 1, 1, 1);
