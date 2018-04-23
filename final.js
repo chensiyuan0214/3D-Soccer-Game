@@ -3,6 +3,7 @@ console.log("Final!");
   var scene, renderer,clock,soccer,avatar1,avatar2;
   var startScene, startCamera;
   var camera, edgeCam,standCam;
+  var goal1, goal2;
   var gameState = {score1:0, score2:0, scene:'startScene', camera: 'none' }
   var controls1 ={fwd:false, bwd:false, left:false, right:false,
 				speed:10, fly:false, reset:false,
@@ -26,24 +27,35 @@ console.log("Final!");
   	  }
 
   function createMainScene(){
-  		scene=initScene();
-  		var ground = createGround('Soccer-Field.jpg');
-		scene.add(ground);
-		var light1 = createPointLight();
-		light1.position.set(0,200,20);
-		scene.add(light1);
-		var light0 = new THREE.AmbientLight( 0xffffff,0.25);
-		scene.add(light0);
-		camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 0.1, 1000 );
-		camera.position.set(0,50,0);
-		camera.lookAt(0,0,0);
-		addBalls();
-    avatar1 = createAvatar();
-    avatar1.position.set(20,3,0);
-		scene.add(avatar1);
-    avatar2 = createAvatar2();
-    avatar2.position.set(-20,3,0);
-    scene.add(avatar2);
+      scene=initScene();
+      var ground = createGround('Soccer-Field.jpg');
+      scene.add(ground);
+      var light1 = createPointLight();
+      light1.position.set(0,200,20);
+      scene.add(light1);
+      var light0 = new THREE.AmbientLight( 0xffffff,0.25);
+      scene.add(light0);
+      camera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 0.1, 1000 );
+      camera.position.set(0,50,0);
+      camera.lookAt(0,0,0);
+      addBalls();
+      avatar1 = createAvatar();
+      avatar1.position.set(20,3,0);
+      initMario1();
+      scene.add(avatar1);
+      avatar2 = createAvatar2();
+      avatar2.position.set(-20,3,0);
+      initMario2();
+      scene.add(avatar2);
+
+      goal1 = createGoalMesh();
+      goal1.position.set(-42, 1, 0);
+      initGoalModel1();
+      scene.add(goal1);
+      goal2 = createGoalMesh();
+      goal2.position.set(42, 1, 0);
+      initGoalModel2();
+      scene.add(goal2);
 
 		edgeCam = new THREE.PerspectiveCamera( 120, window.innerWidth / window.innerHeight, 0.1, 1000 );
         edgeCam.position.set(20,20,10);
@@ -84,6 +96,16 @@ console.log("Final!");
 			startCamera.lookAt(0,0,0);
 		}
 
+ function createGoalMesh(color){
+    var geometry = new THREE.BoxGeometry(1,3,7.5);
+    var material = new THREE.MeshLambertMaterial({color: "white"});
+    var pmaterial = new Physijs.createMaterial(material, 0.9, 0.5);
+    pmaterial.visible = false;
+    var mesh = new Physijs.BoxMesh(geometry, pmaterial, 0);
+    mesh.setDamping(0.1,0.1);
+    mesh.castShadow = true;
+    return mesh;
+}
 
   function initScene(){
   		var scene = new Physijs.Scene();
@@ -183,7 +205,7 @@ console.log("Final!");
     	var geometry = new THREE.BoxGeometry( 3, 3, 3);
     	var material = new THREE.MeshLambertMaterial( { color: 0xffff00} );
     	var pmaterial = new Physijs.createMaterial(material,0.9,0.5);
-    	// pmaterial.visible = false;
+    	pmaterial.visible = false;
     	//var mesh = new THREE.Mesh( geometry, material );
     	var mesh = new Physijs.BoxMesh( geometry, pmaterial );
     	// mesh.setDamping(0.1,0.1);
@@ -196,13 +218,65 @@ console.log("Final!");
     	var geometry = new THREE.BoxGeometry( 3, 3, 3);
     	var material = new THREE.MeshLambertMaterial( { color: "red"} );
     	var pmaterial = new Physijs.createMaterial(material,0.9,0.5);
-    	// pmaterial.visible = false;
+    	pmaterial.visible = false;
     	//var mesh = new THREE.Mesh( geometry, material );
     	var mesh = new Physijs.BoxMesh( geometry, pmaterial );
     	// mesh.setDamping(0.1,0.1);
     	mesh.castShadow = true;
     	return mesh;
 	}
+
+function initGoalModel1() {
+    var json_loader = new THREE.JSONLoader();
+    json_loader.load("../models/suzanne.json", function (goalF, goalF_materials) {
+        var mesh = new THREE.Mesh(
+            goalF,
+            // new THREE.MeshFaceMaterial( suzanne_materials )
+            new THREE.MeshLambertMaterial({color: "white"})
+        );
+        mesh.castShadow = true;
+        goal1.add(mesh);
+    });
+}
+
+function initGoalModel2() {
+    var json_loader = new THREE.JSONLoader();
+    json_loader.load("../models/suzanne.json", function (goalF, goalF_materials) {
+        var mesh = new THREE.Mesh(
+            goalF,
+            // new THREE.MeshFaceMaterial( suzanne_materials )
+            new THREE.MeshLambertMaterial({color: "white"})
+        );
+        mesh.castShadow = true;
+        goal2.add(mesh);
+    });
+}
+
+function initMario1(){
+    var json_loader = new THREE.JSONLoader();
+    json_loader.load( "../models/suzanne.json", function( mario, mario_materials ) {
+        var mesh = new THREE.Mesh(
+            mario,
+            // new THREE.MeshFaceMaterial( suzanne_materials )
+            new THREE.MeshLambertMaterial( { color: "red" } )
+        );
+        mesh.castShadow = true;
+        avatar1.add(mesh);
+    });
+}
+
+function initMario2(){
+    var json_loader = new THREE.JSONLoader();
+    json_loader.load( "../models/suzanne.json", function( mario, mario_materials ) {
+        var mesh = new THREE.Mesh(
+            mario,
+            // new THREE.MeshFaceMaterial( suzanne_materials )
+            new THREE.MeshLambertMaterial( { color: "yellow" } )
+        );
+        mesh.castShadow = true;
+        avatar2.add(mesh);
+    });
+}
 
   function updateAvatar1(){
     "change the avatar's linear or angular velocity based on controls state (set by WSAD key presses)"
