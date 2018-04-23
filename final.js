@@ -179,9 +179,11 @@ console.log("Final!");
         }
         if(other_object==goal1){
           gameState.score1++;
+	  soccer.position.set(0,10,0);
         }
         if(other_object==goal2){
           gameState.score2++;
+	  soccer.position.set(0,10,0);
         }
       })
       this.__dirtyPosition = true;
@@ -443,7 +445,7 @@ function initMario2(){
 				edgeCam.lookAt(soccer.position);
 				renderer.render( scene, gameState.camera);
 				break;
-		}
+		
 
 			//default:
 			  //console.log("don't know the scene "+gameState.scene);
