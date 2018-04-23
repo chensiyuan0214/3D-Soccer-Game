@@ -177,9 +177,14 @@ console.log("Final!");
         if(other_object==wall1||other_object==wall2||other_object==wall3||other_object==wall4){
           this.position.set(0,10,0);
         }
-          this.__dirtyPosition = true;
-      }
-    )
+        if(other_object==goal1){
+          gameState.score1++;
+        }
+        if(other_object==goal2){
+          gameState.score2++;
+        }
+      })
+      this.__dirtyPosition = true;
   	scene.add(soccer);
   }
 
@@ -231,7 +236,7 @@ console.log("Final!");
 
 function initGoalModel1() {
     var json_loader = new THREE.JSONLoader();
-    json_loader.load("../models/suzanne.json", function (goalF, goalF_materials) {
+    json_loader.load("../models/goalFF.json", function (goalF, goalF_materials) {
         var mesh = new THREE.Mesh(
             goalF,
             // new THREE.MeshFaceMaterial( suzanne_materials )
@@ -244,7 +249,7 @@ function initGoalModel1() {
 
 function initGoalModel2() {
     var json_loader = new THREE.JSONLoader();
-    json_loader.load("../models/suzanne.json", function (goalF, goalF_materials) {
+    json_loader.load("../models/goalFF.json", function (goalF, goalF_materials) {
         var mesh = new THREE.Mesh(
             goalF,
             // new THREE.MeshFaceMaterial( suzanne_materials )
