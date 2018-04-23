@@ -448,8 +448,7 @@ function initMario2(){
 			//default:
 			  //console.log("don't know the scene "+gameState.scene);
 			var info = document.getElementById("info");
-			info.innerHTML='<div style="font-size:24pt">Score: '
-    			+ gameState.score1
+				info.innerHTML='<div style="font-size:24pt">Score: '
   			+ " team1="+gameState.score1
     			+ gameState.score2
   			+ " team2="+gameState.score2
