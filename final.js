@@ -1,15 +1,15 @@
 console.log("Final!");
 
-  var scene, renderer,clock,soccer,avatar1,avatar2;
+  var scene, renderer,clock,soccer,avatar1,avatar2,wall1,wall2,wall3,wall4;
   var startScene, startCamera;
   var camera, edgeCam,standCam;
   var goal1, goal2;
   var gameState = {score1:0, score2:0, scene:'startScene', camera: 'none' }
   var controls1 ={fwd:false, bwd:false, left:false, right:false,
-				speed:10, fly:false, reset:false,
+				speed:20, fly:false, reset:false,
 		    camera:camera}
   var controls2 ={fwd:false, bwd:false, left:false, right:false,
-      	speed:10, fly:false, reset:false,
+      	speed:20, fly:false, reset:false,
       	camera:camera}
 
 
@@ -65,17 +65,17 @@ console.log("Final!");
   gameState.camera=edgeCam;
 
   //adding wars to the soccer turf
-  var wall1=createWall('brick-wall.jpg', 105,50,1);
+  wall1=createWall('brick-wall.jpg', 105,50,1);
   wall1.position.set(0,20,-34);
   scene.add(wall1);
-  var wall2=createWall('brick-wall.jpg', 105,50,1);
+  wall2=createWall('brick-wall.jpg', 105,50,1);
   wall2.position.set(0,20,34);
   scene.add(wall2);
-  var wall3 = createWall('brick-wall.jpg', 68,50,1);
+  wall3 = createWall('brick-wall.jpg', 68,50,1);
   wall3.position.set(52.5,20,0);
   wall3.rotateY(Math.PI/2);
   scene.add(wall3);
-  var wall4 = createWall('brick-wall.jpg', 68,50,1);
+  wall4 = createWall('brick-wall.jpg', 68,50,1);
   wall4.position.set(-52.5,20,0);
   wall4.rotateY(Math.PI/2);
   scene.add(wall4);
@@ -173,7 +173,10 @@ console.log("Final!");
   	soccer = createBall();
   	soccer.position.set(0,10,0);
     soccer.addEventListener( 'collision',
-      function( other_object, relative_velocity, relative_rotation, contact_normal ) {
+      function(other_object) {
+        if(other_object==wall1||other_object==wall2||other_object==wall3||other_object==wall4){
+          this.position.set(0,10,0);
+        }
           this.__dirtyPosition = true;
       }
     )
@@ -203,7 +206,7 @@ console.log("Final!");
 	function createAvatar(){
     	//var geometry = new THREE.SphereGeometry( 4, 20, 20);
     	var geometry = new THREE.BoxGeometry( 3, 3, 3);
-    	var material = new THREE.MeshLambertMaterial( { color: 0xffff00} );
+    	var material = new THREE.MeshLambertMaterial( { color: "yellow"} );
     	var pmaterial = new Physijs.createMaterial(material,0.9,0.5);
     	pmaterial.visible = false;
     	//var mesh = new THREE.Mesh( geometry, material );
@@ -298,9 +301,9 @@ function initMario2(){
     }
 
     if (controls1.left){
-      avatar1.setAngularVelocity(new THREE.Vector3(0,controls1.speed*0.1,0));
+      avatar1.setAngularVelocity(new THREE.Vector3(0,controls1.speed*0.2,0));
     } else if (controls1.right){
-      avatar1.setAngularVelocity(new THREE.Vector3(0,-controls1.speed*0.1,0));
+      avatar1.setAngularVelocity(new THREE.Vector3(0,-controls1.speed*0.2,0));
     }
 
     if (controls1.reset){
@@ -330,9 +333,9 @@ function initMario2(){
     }
 
     if (controls2.left){
-      avatar2.setAngularVelocity(new THREE.Vector3(0,controls2.speed*0.1,0));
+      avatar2.setAngularVelocity(new THREE.Vector3(0,controls2.speed*0.2,0));
     } else if (controls2.right){
-      avatar2.setAngularVelocity(new THREE.Vector3(0,-controls2.speed*0.1,0));
+      avatar2.setAngularVelocity(new THREE.Vector3(0,-controls2.speed*0.2,0));
     }
 
     if (controls2.reset){
@@ -367,6 +370,15 @@ function initMario2(){
       addBalls();
       return;
     }
+
+    if (gameState.scene == 'main' && event.key=='r' ) {
+      gameState.scene = 'main';
+      gameState.score1=0;
+      gameState.score2=0;
+      createMainScene();
+      return;
+    }
+
     switch (event.key){
   		case "1": gameState.camera = camera; break;
   		case "2": gameState.camera = standCam; break;
