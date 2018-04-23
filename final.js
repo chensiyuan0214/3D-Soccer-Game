@@ -180,10 +180,12 @@ console.log("Final!");
         if(other_object==goal1){
           gameState.score1++;
 	  soccer.position.set(0,10,0);
+	  soccer.__dirtyPostion = true;
         }
         if(other_object==goal2){
           gameState.score2++;
 	  soccer.position.set(0,10,0);
+	  soccer.__dirtyPostion = true;
         }
       })
       this.__dirtyPosition = true;
