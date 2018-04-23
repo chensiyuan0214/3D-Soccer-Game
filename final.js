@@ -444,17 +444,18 @@ function initMario2(){
 				*/
 				edgeCam.lookAt(soccer.position);
 				renderer.render( scene, gameState.camera);
-				break;
-		
-
-			//default:
-			  //console.log("don't know the scene "+gameState.scene);
-			var info = document.getElementById("info");
+				var info = document.getElementById("info");
 				info.innerHTML='<div style="font-size:24pt">Score: '
   			+ " team1="+gameState.score1
     			+ gameState.score2
   			+ " team2="+gameState.score2
 			+'</div>';
+				break;
+		
+
+			//default:
+			  //console.log("don't know the scene "+gameState.scene);
+			
 
 		
  	 }
