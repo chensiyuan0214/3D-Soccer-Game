@@ -455,7 +455,7 @@ function initMario2(){
 			+'</div>';
 
 		}
-
+ 	 }
     function createBoxMesh(color){
 		var geometry = new THREE.BoxGeometry( 1, 1, 1);
 		var material = new THREE.MeshLambertMaterial( { color: color} );
