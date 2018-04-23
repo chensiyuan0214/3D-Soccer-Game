@@ -443,7 +443,7 @@ function initMario2(){
 				edgeCam.lookAt(soccer.position);
 				renderer.render( scene, gameState.camera);
 				break;
-
+		}
 
 			//default:
 			  //console.log("don't know the scene "+gameState.scene);
@@ -454,7 +454,7 @@ function initMario2(){
   			+ " team2="+gameState.score2
 			+'</div>';
 
-		}
+		
  	 }
     function createBoxMesh(color){
 		var geometry = new THREE.BoxGeometry( 1, 1, 1);
