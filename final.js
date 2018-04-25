@@ -213,7 +213,7 @@ console.log("Final!");
       function(other_object) {
         if(other_object==goal1){
           gameState.score1++;
-          if (gameState.score1==1) {
+          if (gameState.score1==3) {
             gameState.scene='blueScene';
           }
           this.position.set(0,10,0);
@@ -223,7 +223,7 @@ console.log("Final!");
       function(other_object) {
         if(other_object==goal2){
           gameState.score2++;
-          if (gameState.score2==1) {
+          if (gameState.score2==3) {
             gameState.scene='redScene';
           }
           this.position.set(0,10,0);
