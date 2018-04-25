@@ -68,17 +68,17 @@ console.log("Final!");
   gameState.camera=edgeCam;
 
   //adding wars to the soccer turf
-  wall1=createWall('brick-wall.jpg', 105,50,1);
+  wall1=createWall('4.jpg', 105,50,1);
   wall1.position.set(0,20,-34);
   scene.add(wall1);
-  wall2=createWall('brick-wall.jpg', 105,50,1);
+  wall2=createWall('3.jpg', 105,50,1);
   wall2.position.set(0,20,34);
   scene.add(wall2);
-  wall3 = createWall('brick-wall.jpg', 68,50,1);
+  wall3 = createWall('2.jpg', 68,50,1);
   wall3.position.set(52.5,20,0);
   wall3.rotateY(Math.PI/2);
   scene.add(wall3);
-  wall4 = createWall('brick-wall.jpg', 68,50,1);
+  wall4 = createWall('1.jpg', 68,50,1);
   wall4.position.set(-52.5,20,0);
   wall4.rotateY(Math.PI/2);
   scene.add(wall4);
