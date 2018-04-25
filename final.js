@@ -2,6 +2,8 @@ console.log("Final!");
 
   var scene, renderer,clock,soccer,avatar1,avatar2,wall1,wall2,wall3,wall4;
   var startScene, startCamera;
+  var blueScene, blueCamera;
+  var redScene, redCamera;
   var camera, edgeCam,standCam;
   var goal1, goal2;
   var gameState = {score1:0, score2:0, scene:'startScene', camera: 'none' }
@@ -21,7 +23,8 @@ console.log("Final!");
   function init(){
 	  initPhysijs();
     createStartScene();
-    //createEndScene();
+    createblueScene();
+    createredScene();
 	  createMainScene();
   	  initRenderer();
   	  }
@@ -95,6 +98,34 @@ console.log("Final!");
 			startCamera.position.set(0,50,1);
 			startCamera.lookAt(0,0,0);
 		}
+
+    function createblueScene(){
+        blueScene=initScene();
+        var floor =createGround('end1.jpg');
+        floor.rotateX(Math.PI);
+        //floor.rotateY(Math.PI);
+        blueScene.add(floor);
+        var light1 = createPointLight();
+        light1.position.set(0,200,20);
+        blueScene.add(light1);
+        blueCamera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 0.1, 1000 );
+        blueCamera.position.set(0,50,1);
+        blueCamera.lookAt(0,0,0);
+      }
+
+      function createredScene(){
+          redScene=initScene();
+          var floor =createGround('end2.jpg');
+          floor.rotateX(Math.PI);
+          //floor.rotateY(Math.PI);
+          redScene.add(floor);
+          var light1 = createPointLight();
+          light1.position.set(0,200,20);
+          redScene.add(light1);
+          redCamera = new THREE.PerspectiveCamera( 90, window.innerWidth / window.innerHeight, 0.1, 1000 );
+          redCamera.position.set(0,50,1);
+          redCamera.lookAt(0,0,0);
+        }
 
  function createGoalMesh(color){
     var geometry = new THREE.BoxGeometry(1,3,7.5);
@@ -182,6 +213,9 @@ console.log("Final!");
       function(other_object) {
         if(other_object==goal1){
           gameState.score1++;
+          if (gameState.score1==1) {
+            gameState.scene='blueScene';
+          }
           this.position.set(0,10,0);
           this.__dirtyPosition = true;
         }});
@@ -189,6 +223,9 @@ console.log("Final!");
       function(other_object) {
         if(other_object==goal2){
           gameState.score2++;
+          if (gameState.score2==1) {
+            gameState.scene='redScene';
+          }
           this.position.set(0,10,0);
           this.__dirtyPosition = true;
         }});
@@ -375,11 +412,19 @@ function initMario2(){
       return;
     }
 
-    if (gameState.scene == 'end' && event.key=='r') {
+    if (gameState.scene == 'blueScene' && event.key=='r') {
       gameState.scene = 'main';
       gameState.score1=0;
       gameState.score2=0;
-      addBalls();
+      createMainScene();
+      return;
+    }
+
+    if (gameState.scene == 'redScene' && event.key=='r') {
+      gameState.scene = 'main';
+      gameState.score1=0;
+      gameState.score2=0;
+      createMainScene();
       return;
     }
 
@@ -430,39 +475,40 @@ function initMario2(){
 				renderer.render(startScene,startCamera);
 				break;
 
-			case "end":
+			case "blueScene":
 				//endText.rotateY(0.005);
-				renderer.render( endScene, endCamera );
+				renderer.render( blueScene, blueCamera );
 				break;
 
+      case "redScene":
+  				//endText.rotateY(0.005);
+  			renderer.render( redScene, redCamera );
+  			break;
 
 			case "main":
       	scene.simulate();
 				updateAvatar1();
         updateAvatar2();
 				/*updateNPC();
-
-
 				if (gameState.camera!= 'none'){
 					renderer.render( scene, gameState.camera );
 				}
 				*/
 				edgeCam.lookAt(soccer.position);
 				renderer.render( scene, gameState.camera);
-				var info = document.getElementById("info");
-				info.innerHTML='<div style="font-size:24pt">Score: '
-  			+ " team1="+gameState.score1
-  			+ " team2="+gameState.score2
-			+'</div>';
-				break;
-
-
+        break;
 			//default:
 			  //console.log("don't know the scene "+gameState.scene);
-
-
-
  	 }
+
+   var info = document.getElementById("info");
+   info.innerHTML='<div style="font-size:24pt">Score: '
+   + " team1="+gameState.score1
+   + " team2="+gameState.score2
+   +'</div>';
+
+
+
     function createBoxMesh(color){
 		var geometry = new THREE.BoxGeometry( 1, 1, 1);
 		var material = new THREE.MeshLambertMaterial( { color: color} );
