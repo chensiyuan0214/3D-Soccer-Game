@@ -8,10 +8,10 @@ console.log("Final!");
   var goal1, goal2;
   var gameState = {score1:0, score2:0, scene:'startScene', camera: 'none' }
   var controls1 ={fwd:false, bwd:false, left:false, right:false,
-				speed:15, fly:false, reset:false,
+				speed:12, fly:false, reset:false,
 		    camera:camera}
   var controls2 ={fwd:false, bwd:false, left:false, right:false,
-      	speed:15, fly:false, reset:false,
+      	speed:12, fly:false, reset:false,
       	camera:camera}
 
 
