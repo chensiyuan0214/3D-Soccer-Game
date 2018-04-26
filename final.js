@@ -277,13 +277,8 @@ function createSkyBox(image,k){
 
 	function createAvatar(){
     	//var geometry = new THREE.SphereGeometry( 4, 20, 20);
-<<<<<<< HEAD
-    	var geometry = new THREE.BoxGeometry( 5, 5, 5);
-    	var material = new THREE.MeshLambertMaterial( { color: "yellow"} );
-=======
     	var geometry = new THREE.BoxGeometry( 3, 1, 3);
     	var material = new THREE.MeshLambertMaterial();
->>>>>>> d57c48e7edec41779afa79c3572d6cb8975b28e3
     	var pmaterial = new Physijs.createMaterial(material,0.9,0.5);
     	pmaterial.visible = false;
     	//var mesh = new THREE.Mesh( geometry, material );
