@@ -333,7 +333,7 @@ function initMario1(){
         var mesh = new THREE.Mesh(
             mario,
             // new THREE.MeshFaceMaterial( suzanne_materials )
-            new THREE.MeshFaceMaterial(mario_materials)
+            new THREE.MeshLambertMaterial( { color: "red" } )
         );
         mesh.castShadow = true;
         avatar1.add(mesh);
@@ -346,7 +346,7 @@ function initMario2(){
         var mesh = new THREE.Mesh(
             mario,
             // new THREE.MeshFaceMaterial( suzanne_materials )
-            new THREE.MeshFaceMaterial(mario_materials)
+            new THREE.MeshLambertMaterial( { color: "yellow" } )
         );
         mesh.castShadow = true;
         avatar2.add(mesh);
