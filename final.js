@@ -236,7 +236,7 @@ function createSkyBox(image,k){
       function(other_object) {
         if(other_object==goal1){
           gameState.score1++;
-          if (gameState.score1==3) {
+          if (gameState.score1==1) {
             gameState.scene='blueScene';
           }
           this.position.set(0,10,0);
@@ -246,7 +246,7 @@ function createSkyBox(image,k){
       function(other_object) {
         if(other_object==goal2){
           gameState.score2++;
-          if (gameState.score2==3) {
+          if (gameState.score2==1) {
             gameState.scene='redScene';
           }
           this.position.set(0,10,0);
@@ -333,7 +333,7 @@ function initMario1(){
         var mesh = new THREE.Mesh(
             mario,
             // new THREE.MeshFaceMaterial( suzanne_materials )
-            new THREE.MeshLambertMaterial( { color: "red" } )
+            new THREE.MeshLambertMaterial( { color: "purple" } )
         );
         mesh.castShadow = true;
         avatar1.add(mesh);
@@ -346,7 +346,7 @@ function initMario2(){
         var mesh = new THREE.Mesh(
             mario,
             // new THREE.MeshFaceMaterial( suzanne_materials )
-            new THREE.MeshLambertMaterial( { color: "yellow" } )
+            new THREE.MeshLambertMaterial( { color: "red" } )
         );
         mesh.castShadow = true;
         avatar2.add(mesh);
@@ -484,36 +484,36 @@ function distance(o1, o2){
   		case "1": gameState.camera = camera; break;
   		case "2": gameState.camera = standCam; break;
   		case "3": gameState.camera = edgeCam; break;
-      case "w": controls1.fwd = true;  break;
-      case "s": controls1.bwd = true; break;
-      case "a": controls1.left = true; break;
-      case "d": controls1.right = true; break;
-        case "j": controls2.shoot = true; break;
-        case "q": controls2.stand = true; break;
-      case "ArrowUp": controls2.fwd = true;  break;
-      case "ArrowDown": controls2.bwd = true; break;
-      case "ArrowLeft": controls2.left = true; break;
-      case "ArrowRight": controls2.right = true; break;
-        case "f": controls1.shoot = true; break;
-        case "m": controls1.stand = true; break;
+      case "w": controls2.fwd = true;  break;
+      case "s": controls2.bwd = true; break;
+      case "a": controls2.left = true; break;
+      case "d": controls2.right = true; break;
+        case "j": controls1.shoot = true; break;
+        case "q": controls1.stand = true; break;
+      case "ArrowUp": controls1.fwd = true;  break;
+      case "ArrowDown": controls1.bwd = true; break;
+      case "ArrowLeft": controls1.left = true; break;
+      case "ArrowRight": controls1.right = true; break;
+        case "f": controls2.shoot = true; break;
+        case "m": controls2.stand = true; break;
 
   	}
   }
 
   function keyup(event){
   	switch (event.key){
-      case "w": controls1.fwd   = false;  break;
-      case "s": controls1.bwd   = false; break;
-      case "a": controls1.left  = false; break;
-      case "d": controls1.right = false; break;
-      case "ArrowUp": controls2.fwd = false;  break;
-      case "ArrowDown": controls2.bwd = false; break;
-      case "ArrowLeft": controls2.left = false; break;
-      case "ArrowRight": controls2.right = false; break;
-        case "j": controls2.shoot = false; break;
-        case "f": controls1.shoot = false; break;
-        case "q": controls2.shoot = false; break;
-        case "m": controls1.shoot = false; break;
+      case "w": controls2.fwd   = false;  break;
+      case "s": controls2.bwd   = false; break;
+      case "a": controls2.left  = false; break;
+      case "d": controls2.right = false; break;
+      case "ArrowUp": controls1.fwd = false;  break;
+      case "ArrowDown": controls1.bwd = false; break;
+      case "ArrowLeft": controls1.left = false; break;
+      case "ArrowRight": controls1.right = false; break;
+        case "j": controls1.shoot = false; break;
+        case "f": controls2.shoot = false; break;
+        case "q": controls1.shoot = false; break;
+        case "m": controls2.shoot = false; break;
   	}
   }
 
@@ -555,8 +555,8 @@ function distance(o1, o2){
 
    var info = document.getElementById("info");
    info.innerHTML='<div style="font-size:24pt">Score: '
-   + " team1="+gameState.score1
-   + " team2="+gameState.score2
+   + " Red Team="+gameState.score2
+   + " Purple Team="+gameState.score1
    +'</div>';
 
 
