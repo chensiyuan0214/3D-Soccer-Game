@@ -33,6 +33,8 @@ console.log("Final!");
       scene=initScene();
       var ground = createGround('Soccer-Field.jpg');
       scene.add(ground);
+      var skybox = createSkyBox('sky.jpg',1);
+      scene.add(skybox);
       var light1 = createPointLight();
       light1.position.set(0,200,20);
       scene.add(light1);
@@ -64,7 +66,8 @@ console.log("Final!");
         edgeCam.position.set(20,20,10);
         edgeCam.position.set(20,20,10);
   standCam = new THREE.PerspectiveCamera( 80, window.innerWidth / window.innerHeight, 0.1, 1000 );
-  standCam.position.set(0,30,50);
+  standCam.position.set(-30,20,-15);
+  standCam.lookAt(0,0,0);
   gameState.camera=edgeCam;
 
   //adding wars to the soccer turf
@@ -199,6 +202,26 @@ console.log("Final!");
     // we need to rotate the mesh 90 degrees to make it horizontal not vertical
   }
 
+function createSkyBox(image,k){
+    // creating a textured plane which receives shadows
+    var geometry = new THREE.SphereGeometry( 80, 80, 80 );
+    var texture = new THREE.TextureLoader().load( '../images/'+image );
+    texture.wrapS = THREE.RepeatWrapping;
+    texture.wrapT = THREE.RepeatWrapping;
+    texture.repeat.set( k, k );
+    var material = new THREE.MeshLambertMaterial( { color: 0xffffff,  map: texture ,side:THREE.DoubleSide} );
+    //var pmaterial = new Physijs.createMaterial(material,0.9,0.5);
+    //var mesh = new THREE.Mesh( geometry, material );
+    var mesh = new THREE.Mesh( geometry, material, 0 );
+
+    mesh.receiveShadow = false;
+
+
+    return mesh
+    // we need to rotate the mesh 90 degrees to make it horizontal not vertical
+
+
+}
 
   function addBalls(){
   	soccer = createBall();
@@ -254,7 +277,7 @@ console.log("Final!");
 
 	function createAvatar(){
     	//var geometry = new THREE.SphereGeometry( 4, 20, 20);
-    	var geometry = new THREE.BoxGeometry( 3, 3, 3);
+    	var geometry = new THREE.BoxGeometry( 3, 1, 3);
     	var material = new THREE.MeshLambertMaterial( { color: "yellow"} );
     	var pmaterial = new Physijs.createMaterial(material,0.9,0.5);
     	pmaterial.visible = false;
@@ -267,7 +290,7 @@ console.log("Final!");
 
   function createAvatar2(){
     	//var geometry = new THREE.SphereGeometry( 4, 20, 20);
-    	var geometry = new THREE.BoxGeometry( 3, 3, 3);
+    	var geometry = new THREE.BoxGeometry( 3, 1, 3);
     	var material = new THREE.MeshLambertMaterial( { color: "red"} );
     	var pmaterial = new Physijs.createMaterial(material,0.9,0.5);
     	pmaterial.visible = false;
@@ -360,6 +383,13 @@ function initMario2(){
       avatar1.position.set(20,3,0);
     }
 
+    if(controls1.shoot){
+        if(distance(avatar1, soccer)<5){
+                var fwd=avatar1.getWorldDirection();
+                soccer.setLinearVelocity(fwd.multiplyScalar(controls1.speed));
+        }
+    }
+
   }
 
   function updateAvatar2(){
@@ -392,7 +422,21 @@ function initMario2(){
       avatar2.position.set(-20,3,0);
     }
 
+      if(controls2.shoot){
+          if(distance(avatar2, soccer)<5){
+              var fwd=avatar2.getWorldDirection();
+              soccer.setLinearVelocity(fwd.multiplyScalar(controls2.speed));
+          }
+      }
+
   }
+
+function distance(o1, o2){
+    var dx = o1.position.x-o2.position.x;
+    var dy = o1.position.y-o2.position.y;
+    var dz = o1.position.z-o2.position.z;
+    return Math.sqrt(dx*dx+dy*dy+dz*dz);
+}
 
   function initControls(){
 		clock = new THREE.Clock();
@@ -444,10 +488,14 @@ function initMario2(){
       case "s": controls1.bwd = true; break;
       case "a": controls1.left = true; break;
       case "d": controls1.right = true; break;
+        case "j": controls2.shoot = true; break;
+        case "q": controls2.stand = true; break;
       case "ArrowUp": controls2.fwd = true;  break;
       case "ArrowDown": controls2.bwd = true; break;
       case "ArrowLeft": controls2.left = true; break;
       case "ArrowRight": controls2.right = true; break;
+        case "f": controls1.shoot = true; break;
+        case "m": controls1.stand = true; break;
 
   	}
   }
@@ -462,6 +510,10 @@ function initMario2(){
       case "ArrowDown": controls2.bwd = false; break;
       case "ArrowLeft": controls2.left = false; break;
       case "ArrowRight": controls2.right = false; break;
+        case "j": controls2.shoot = false; break;
+        case "f": controls1.shoot = false; break;
+        case "q": controls2.shoot = false; break;
+        case "m": controls1.shoot = false; break;
   	}
   }
 
@@ -534,4 +586,6 @@ function initMario2(){
 		mesh.add(avatarCam);
 		return mesh;
 	}
+
+
 }
