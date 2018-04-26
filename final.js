@@ -383,6 +383,13 @@ function initMario2(){
       avatar1.position.set(20,3,0);
     }
 
+    if(controls1.shoot){
+        if(distance(avatar1, soccer)<5){
+                var fwd=avatar1.getWorldDirection();
+                soccer.setLinearVelocity(fwd.multiplyScalar(controls1.speed));
+        }
+    }
+
   }
 
   function updateAvatar2(){
@@ -415,7 +422,21 @@ function initMario2(){
       avatar2.position.set(-20,3,0);
     }
 
+      if(controls2.shoot){
+          if(distance(avatar2, soccer)<5){
+              var fwd=avatar2.getWorldDirection();
+              soccer.setLinearVelocity(fwd.multiplyScalar(controls2.speed));
+          }
+      }
+
   }
+
+function distance(o1, o2){
+    var dx = o1.position.x-o2.position.x;
+    var dy = o1.position.y-o2.position.y;
+    var dz = o1.position.z-o2.position.z;
+    return Math.sqrt(dx*dx+dy*dy+dz*dz);
+}
 
   function initControls(){
 		clock = new THREE.Clock();
@@ -467,10 +488,14 @@ function initMario2(){
       case "s": controls1.bwd = true; break;
       case "a": controls1.left = true; break;
       case "d": controls1.right = true; break;
+        case "j": controls2.shoot = true; break;
+        case "q": controls2.stand = true; break;
       case "ArrowUp": controls2.fwd = true;  break;
       case "ArrowDown": controls2.bwd = true; break;
       case "ArrowLeft": controls2.left = true; break;
       case "ArrowRight": controls2.right = true; break;
+        case "f": controls1.shoot = true; break;
+        case "m": controls1.stand = true; break;
 
   	}
   }
@@ -485,6 +510,10 @@ function initMario2(){
       case "ArrowDown": controls2.bwd = false; break;
       case "ArrowLeft": controls2.left = false; break;
       case "ArrowRight": controls2.right = false; break;
+        case "j": controls2.shoot = false; break;
+        case "f": controls1.shoot = false; break;
+        case "q": controls2.shoot = false; break;
+        case "m": controls1.shoot = false; break;
   	}
   }
 
@@ -557,4 +586,6 @@ function initMario2(){
 		mesh.add(avatarCam);
 		return mesh;
 	}
+
+
 }
