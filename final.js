@@ -306,7 +306,7 @@ function initGoalModel2() {
 
 function initMario1(){
     var json_loader = new THREE.JSONLoader();
-    json_loader.load( "../models/mario.json", function( mario, mario_materials ) {
+    json_loader.load( "../models/mario-sculpture.json", function( mario, mario_materials ) {
         var mesh = new THREE.Mesh(
             mario,
             // new THREE.MeshFaceMaterial( suzanne_materials )
@@ -319,7 +319,7 @@ function initMario1(){
 
 function initMario2(){
     var json_loader = new THREE.JSONLoader();
-    json_loader.load( "../models/suzanne.json", function( mario, mario_materials ) {
+    json_loader.load( "../models/mario-blue.json", function( mario, mario_materials ) {
         var mesh = new THREE.Mesh(
             mario,
             // new THREE.MeshFaceMaterial( suzanne_materials )
