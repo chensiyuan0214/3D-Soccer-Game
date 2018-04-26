@@ -45,11 +45,11 @@ console.log("Final!");
       camera.lookAt(0,0,0);
       addBalls();
       avatar1 = createAvatar();
-      avatar1.position.set(20,3,0);
+      avatar1.position.set(20,10,0);
       initMario1();
       scene.add(avatar1);
       avatar2 = createAvatar2();
-      avatar2.position.set(-20,3,0);
+      avatar2.position.set(-20,10,0);
       initMario2();
       scene.add(avatar2);
 
@@ -277,8 +277,13 @@ function createSkyBox(image,k){
 
 	function createAvatar(){
     	//var geometry = new THREE.SphereGeometry( 4, 20, 20);
+<<<<<<< HEAD
+    	var geometry = new THREE.BoxGeometry( 5, 5, 5);
+    	var material = new THREE.MeshLambertMaterial( { color: "yellow"} );
+=======
     	var geometry = new THREE.BoxGeometry( 3, 1, 3);
     	var material = new THREE.MeshLambertMaterial();
+>>>>>>> d57c48e7edec41779afa79c3572d6cb8975b28e3
     	var pmaterial = new Physijs.createMaterial(material,0.9,0.5);
     	pmaterial.visible = false;
     	//var mesh = new THREE.Mesh( geometry, material );
