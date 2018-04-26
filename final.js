@@ -278,7 +278,7 @@ function createSkyBox(image,k){
 	function createAvatar(){
     	//var geometry = new THREE.SphereGeometry( 4, 20, 20);
     	var geometry = new THREE.BoxGeometry( 3, 1, 3);
-    	var material = new THREE.MeshLambertMaterial( { color: "yellow"} );
+    	var material = new THREE.MeshLambertMaterial();
     	var pmaterial = new Physijs.createMaterial(material,0.9,0.5);
     	pmaterial.visible = false;
     	//var mesh = new THREE.Mesh( geometry, material );
@@ -291,7 +291,7 @@ function createSkyBox(image,k){
   function createAvatar2(){
     	//var geometry = new THREE.SphereGeometry( 4, 20, 20);
     	var geometry = new THREE.BoxGeometry( 3, 1, 3);
-    	var material = new THREE.MeshLambertMaterial( { color: "red"} );
+    	var material = new THREE.MeshLambertMaterial();
     	var pmaterial = new Physijs.createMaterial(material,0.9,0.5);
     	pmaterial.visible = false;
     	//var mesh = new THREE.Mesh( geometry, material );
@@ -333,7 +333,7 @@ function initMario1(){
         var mesh = new THREE.Mesh(
             mario,
             // new THREE.MeshFaceMaterial( suzanne_materials )
-            new THREE.MeshLambertMaterial( { color: "red" } )
+            new THREE.MeshFaceMaterial(mario_materials)
         );
         mesh.castShadow = true;
         avatar1.add(mesh);
@@ -346,7 +346,7 @@ function initMario2(){
         var mesh = new THREE.Mesh(
             mario,
             // new THREE.MeshFaceMaterial( suzanne_materials )
-            new THREE.MeshLambertMaterial( { color: "yellow" } )
+            new THREE.MeshFaceMaterial(mario_materials)
         );
         mesh.castShadow = true;
         avatar2.add(mesh);
